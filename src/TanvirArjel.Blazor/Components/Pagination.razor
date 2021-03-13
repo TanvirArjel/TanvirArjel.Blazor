@@ -1,0 +1,146 @@
+﻿@{
+    var prevDisabled = !PaginationModel.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !PaginationModel.HasNextPage ? "disabled" : "";
+}
+
+
+<span style="cursor: default" class="btn rounded-0 border btn-xs-block bg-white mb-2 mb-sm-0">
+    Showing item @PaginationModel.PageItemsStartsAt to @PaginationModel.PageItemsEndsAt of @PaginationModel.TotalItems items
+</span>
+
+<nav class="d-inline-block float-sm-end" aria-label="teacher list navigation">
+
+    <ul class="pagination justify-content-center mb-0">
+        <li class="page-item @prevDisabled">
+            <a class="page-link rounded-0" href="@($"{PageLink}{PaginationModel.PageIndex - 1}")">
+                Previous
+            </a>
+        </li>
+        @{
+
+            if (PaginationModel.TotalPages > PaginationModel.MaxPageLink)
+            {
+                if (PaginationModel.PageIndex > (PaginationModel.MaxPageLink - 2))
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@($"{PageLink}1")">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link">....</a>
+                    </li>
+
+                    if (PaginationModel.PageIndex + 2 >= PaginationModel.TotalPages)
+                    {
+
+                        for (int i = PaginationModel.TotalPages - 3; i < PaginationModel.TotalPages; i++)
+                        {
+                            string currentPageCss = "";
+
+                            if (i == PaginationModel.PageIndex)
+                            {
+                                currentPageCss = "active MakeDisabled";
+                            }
+                            <li class="@currentPageCss page-item">
+                                <a class="page-link" href="@($"{PageLink}{i}")">@i</a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        for (int i = PaginationModel.PageIndex - 1; i <= PaginationModel.PageIndex + 1; i++)
+                        {
+
+                            string currentPageCss = "";
+
+                            if (i == PaginationModel.PageIndex)
+                            {
+                                currentPageCss = "active MakeDisabled";
+                            }
+                            <li class="@currentPageCss page-item">
+                                <a class="page-link" href="@($"{PageLink}{i}")">@i</a>
+                            </li>
+                        }
+                    }
+                }
+
+                else
+                {
+                    for (int i = 1; i <= PaginationModel.MaxPageLink - 1; i++)
+                    {
+
+                        string currentPageCss = "";
+
+                        if (i == PaginationModel.PageIndex)
+                        {
+                            currentPageCss = "active MakeDisabled";
+                        }
+                        <li class="@currentPageCss page-item">
+                            <a class="page-link" href="@($"{PageLink}{i}")">@i</a>
+                        </li>
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 1; i <= PaginationModel.TotalPages; i++)
+                {
+                    string currentPageCss = "";
+
+                    if (i == PaginationModel.PageIndex)
+                    {
+                        currentPageCss = "active";
+                    }
+                    <li class="@currentPageCss page-item">
+                        <a class="page-link" href="@($"{PageLink}{i}")">
+                            @i
+                        </a>
+                    </li>
+                }
+            }
+
+        }
+
+
+
+        @{
+            string hideDotCss = "";
+            if (PaginationModel.TotalPages <= PaginationModel.MaxPageLink)
+            {
+                hideDotCss = "d-none";
+            }
+            else
+            {
+                if (PaginationModel.PageIndex + 2 >= PaginationModel.TotalPages)
+                {
+                    hideDotCss = "d-none";
+                }
+            }
+
+
+            <li class="@hideDotCss page-item">
+                <a class="page-link">....</a>
+            </li>
+
+            if (PaginationModel.TotalPages > PaginationModel.MaxPageLink)
+            {
+
+                string currentPageCss = "";
+
+                if (PaginationModel.PageIndex == PaginationModel.TotalPages)
+                {
+                    currentPageCss = "active MakeDisabled";
+                }
+                <li class="@currentPageCss page-item">
+                    <a class="page-link" href="@($"{PageLink}{PaginationModel.TotalPages}")">@PaginationModel.TotalPages</a>
+                </li>
+            }
+        }
+
+
+        <li class="page-item @nextDisabled">
+            <a class="page-link rounded-0" href="@($"{PageLink}{PaginationModel.PageIndex + 1}")"  >
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
