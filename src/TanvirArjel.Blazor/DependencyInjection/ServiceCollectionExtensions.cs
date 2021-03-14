@@ -9,14 +9,15 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 namespace TanvirArjel.Blazor.DependencyInjection
 {
     /// <summary>
-    /// This is doc
+    /// Contains all the extension methods of <see cref="IServiceCollection"/> for adding 
+    /// Blazor components to the dependency injection containders.
     /// </summary>
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// This is doc
+        /// This method will add all the blazor components from calling assembly to the dependency injection container.
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="services">The type to be extended.</param>
         public static void AddComponents(this IServiceCollection services)
         {
             if (services == null)
@@ -28,10 +29,10 @@ namespace TanvirArjel.Blazor.DependencyInjection
         }
 
         /// <summary>
-        /// 
+        /// This method will add all the blazor components from the provided assemblies to the dependency injection container.
         /// </summary>
-        /// <param name="services"></param>
-        /// <param name="assemblies"></param>
+        /// <param name="services">The type to be extended.</param>
+        /// <param name="assemblies">The assemblies containing the components to be registered.</param>
         public static void AddComponents(this IServiceCollection services, params Assembly[] assemblies)
         {
             if (services == null)
@@ -43,7 +44,7 @@ namespace TanvirArjel.Blazor.DependencyInjection
 
             List<Assembly> assembliesToBeScanned = new List<Assembly>();
 
-            if (assemblies == null || assemblies.Count() == 0)
+            if (assemblies == null || assemblies.Length == 0)
             {
                 assembliesToBeScanned.Add(Assembly.GetEntryAssembly());
             }

@@ -1,17 +1,11 @@
-﻿@{
-    var prevDisabled = !PaginationModel.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !PaginationModel.HasNextPage ? "disabled" : "";
-}
-
-
-<span style="cursor: default" class="btn rounded-0 border btn-xs-block bg-white mb-2 mb-sm-0">
+﻿<span style="cursor: default" class="btn rounded-0 border d-block d-lg-inline-block bg-white mb-2 mb-lg-0">
     Showing item @PaginationModel.PageItemsStartsAt to @PaginationModel.PageItemsEndsAt of @PaginationModel.TotalItems items
 </span>
 
-<nav class="d-inline-block float-sm-end" aria-label="teacher list navigation">
+<nav class="d-block d-lg-inline-block float-lg-right float-lg-end" aria-label="teacher list navigation">
 
     <ul class="pagination justify-content-center mb-0">
-        <li class="page-item @prevDisabled">
+        <li class="page-item @PrevDisabled">
             <a class="page-link rounded-0" href="@($"{PageLink}{PaginationModel.PageIndex - 1}")">
                 Previous
             </a>
@@ -137,7 +131,7 @@
         }
 
 
-        <li class="page-item @nextDisabled">
+        <li class="page-item @NextDisabled">
             <a class="page-link rounded-0" href="@($"{PageLink}{PaginationModel.PageIndex + 1}")"  >
                 Next
             </a>
