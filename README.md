@@ -1,5 +1,5 @@
 # TanvirArjel.Blazor
-This library is extending ASP.NET Core Blazor functionalities to ease most common tasks for the developers. In this version it has the following functionalities:
+This library is extending ASP.NET Core Blazor functionalities to ease most common tasks for the developers. Currently, it has the following functionalities:
 
 1. Adding constructor dependency injection support for the Blazor Components.
 2. A pagination component to display pagination UI in Blazor Components.
@@ -21,7 +21,7 @@ First install the `TanvirArjel.Blazor` [nuget](https://www.nuget.org/packages/Ta
     
 ## 🛠️ Usage: 🛠️
 
-1. To enable dependency injection for Blazor Components:
+1. To enable **Constructor Dependency Injection** support for the Blazor Components:
 
     *Blazor Server:*
     ```C#
@@ -36,7 +36,8 @@ First install the `TanvirArjel.Blazor` [nuget](https://www.nuget.org/packages/Ta
         
     builder.Services.AddComponents();
     ```
-2. For Pagination:
+2. For **Pagination**:
+
    Add `@using TanvirArjel.Blazor.Components` to the `_Imports.razor` file. and then:
    
    ```C#
@@ -55,3 +56,4 @@ First install the `TanvirArjel.Blazor` [nuget](https://www.nuget.org/packages/Ta
         }
    }
    ```
+   *Note: Pagination styling depends on [Bootstrap](https://getbootstrap.com/) css framework.*
