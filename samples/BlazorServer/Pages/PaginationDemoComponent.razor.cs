@@ -9,11 +9,10 @@ namespace BlazorServer.Pages
         {
             PaginationModel = new PaginationModel()
             {
-                PageIndex = 1,
-                TotalPages = 6,
-                TotalItems = 30,
-                PageItemsEndsAt = 5,
-                PageItemsStartsAt = 1,
+                PageIndex = 15,
+                PageSize = 5,
+                TotalItems = 300,
+                ListUrl = "products"
             };
         }
     }

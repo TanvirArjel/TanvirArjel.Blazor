@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿// <copyright file="Pagination.razor.cs" company="TanvirArjel">
+// Copyright (c) TanvirArjel. All rights reserved.
+// </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
@@ -11,95 +17,113 @@ namespace TanvirArjel.Blazor.Components
     public partial class Pagination
     {
         /// <summary>
-        /// The pagination object that contains all the information related to the pagination.
+        /// Gets or sets the pagination object that contains necessary information related to the pagination.
         /// </summary>
         [Parameter]
         public PaginationModel PaginationModel { get; set; }
 
-        /// <summary>
-        /// The item list url.
-        /// </summary>
-        [Parameter]
-        public string ListUrl { get; set; }
+        private int TotalPages { get; set; }
 
-        /// <summary>
-        /// The query strings of the item list if any. This is can be used to retain the search or order during pagination.
-        /// </summary>
-        [Parameter]
-        public Dictionary<string, string> QueryStrings { get; set; }
+        private int MaxPageLink { get; set; } = 5;
 
-        /// <summary>
-        /// Whether the pagination details will be shown. Default value is true.
-        /// </summary>
-        [Parameter]
-        public bool ShowDetails { get; set; }
+        private long PageItemsStartsAt { get; set; }
+
+        private long PageItemsEndsAt { get; set; }
+
+        private bool HasPreviousPage { get; set; }
+
+        private bool HasNextPage { get; set; }
 
         private string PageLink { get; set; }
 
-        private string PrevDisabled => PaginationModel.HasPreviousPage ? string.Empty : "disabled";
+        private string PrevDisabled { get; set; }
 
-        private string NextDisabled => PaginationModel.HasNextPage ? string.Empty : "disabled";
+        private string NextDisabled { get; set; }
 
         /// <summary>
         /// This method will be called during initializaiton of the component.
         /// </summary>
         protected override void OnInitialized()
         {
-            if (QueryStrings != null && QueryStrings.Any())
+            if (PaginationModel == null)
             {
-                string uriWithQueryString = QueryHelpers.AddQueryString(ListUrl, QueryStrings);
+                throw new InvalidOperationException($"The {nameof(PaginationModel)} is null.");
+            }
+
+            if (PaginationModel.PageIndex <= 0)
+            {
+                throw new InvalidOperationException($"The {nameof(PaginationModel.PageIndex)} must be greater than 0.");
+            }
+
+            if (PaginationModel.PageSize <= 0)
+            {
+                throw new InvalidOperationException($"The {nameof(PaginationModel.PageSize)} must be greater than 0.");
+            }
+
+            if (PaginationModel.TotalItems <= 0)
+            {
+                throw new InvalidOperationException($"The {nameof(PaginationModel.TotalItems)} can't be less than 0.");
+            }
+
+            int pageIndex = PaginationModel.PageIndex;
+            int pageSize = PaginationModel.PageSize;
+            long totalItems = PaginationModel.TotalItems;
+
+            TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            PageItemsStartsAt = totalItems > 0 ? ((pageIndex - 1) * pageSize) + 1 : 0;
+            PageItemsEndsAt = totalItems > 0 ? (pageIndex * pageSize > totalItems ? totalItems : pageIndex * pageSize) : 0;
+            HasPreviousPage = pageIndex > 1;
+            HasNextPage = pageIndex < TotalPages;
+
+            PrevDisabled = HasPreviousPage ? string.Empty : "disabled";
+            NextDisabled = HasNextPage ? string.Empty : "disabled";
+
+            if (PaginationModel.QueryStrings != null && PaginationModel.QueryStrings.Any())
+            {
+                string uriWithQueryString = QueryHelpers.AddQueryString(PaginationModel.ListUrl, PaginationModel.QueryStrings);
                 PageLink = uriWithQueryString + "&pageIndex=";
             }
             else
             {
-                PageLink = ListUrl + "?pageIndex=";
+                PageLink = PaginationModel.ListUrl + "?pageIndex=";
             }
         }
     }
 
     /// <summary>
-    /// 
+    /// The model contains the pagination configuration.
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "Not applicable here.")]
     public class PaginationModel
     {
         /// <summary>
-        /// The index of the current page.
+        /// Gets or sets the index of the current page.
         /// </summary>
         public int PageIndex { get; set; }
 
         /// <summary>
-        /// Total number of pages in the collection.
+        /// Gets or sets the number of items in each page.
         /// </summary>
-        public int TotalPages { get; set; }
+        public int PageSize { get; set; }
 
         /// <summary>
-        /// Total items in the collection.
+        /// Gets or sets total items in the collection.
         /// </summary>
         public long TotalItems { get; set; }
 
         /// <summary>
-        /// Number link button will be shown in the pagination.
+        /// Gets or sets the item list url.
         /// </summary>
-        public int MaxPageLink { get; set; } = 5;
+        public string ListUrl { get; set; }
 
         /// <summary>
-        /// Current page items start index.
+        /// Gets or sets the query strings of the item list if any. This is can be used to retain the search or order during pagination.
         /// </summary>
-        public long PageItemsStartsAt { get; set; }
+        public Dictionary<string, string> QueryStrings { get; set; }
 
         /// <summary>
-        /// Current page item end index.
+        /// Gets or sets a value indicating whether the pagination details will be shown. Default value is true.
         /// </summary>
-        public long PageItemsEndsAt { get; set; }
-
-        /// <summary>
-        /// Whether there is any previous page in the pagination.
-        /// </summary>
-        public bool HasPreviousPage => PageIndex > 1;
-
-        /// <summary>
-        /// Whether there is any next page in the pagination.
-        /// </summary>
-        public bool HasNextPage => PageIndex < TotalPages;
+        public bool ShowDetails { get; set; } = true;
     }
 }

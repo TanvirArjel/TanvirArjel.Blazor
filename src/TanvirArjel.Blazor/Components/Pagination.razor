@@ -1,8 +1,15 @@
-﻿<span style="cursor: default" class="btn rounded-0 border d-block d-lg-inline-block bg-white mb-2 mb-lg-0">
-    Showing item @PaginationModel.PageItemsStartsAt to @PaginationModel.PageItemsEndsAt of @PaginationModel.TotalItems items
-</span>
+﻿
+@{
+    if (PaginationModel.ShowDetails)
+    {
+        <span style="cursor: default" class="btn rounded-0 border d-block d-lg-inline-block bg-white mb-2 mb-lg-0">
+            Showing item @PageItemsStartsAt to @PageItemsEndsAt of @PaginationModel.TotalItems items
+        </span>
+    }
+}
 
-<nav class="d-block d-lg-inline-block float-lg-right float-lg-end" aria-label="teacher list navigation">
+
+<nav class="d-block @(PaginationModel.ShowDetails ? "d-lg-inline-block float-lg-right float-lg-end" : "text-center")" aria-label="teacher list navigation">
 
     <ul class="pagination justify-content-center mb-0">
         <li class="page-item @PrevDisabled">
@@ -12,9 +19,9 @@
         </li>
         @{
 
-            if (PaginationModel.TotalPages > PaginationModel.MaxPageLink)
+            if (TotalPages > MaxPageLink)
             {
-                if (PaginationModel.PageIndex > (PaginationModel.MaxPageLink - 2))
+                if (PaginationModel.PageIndex > (MaxPageLink - 2))
                 {
                     <li class="page-item">
                         <a class="page-link" href="@($"{PageLink}1")">1</a>
@@ -23,10 +30,10 @@
                         <a class="page-link">....</a>
                     </li>
 
-                    if (PaginationModel.PageIndex + 2 >= PaginationModel.TotalPages)
+                    if (PaginationModel.PageIndex + 2 >= TotalPages)
                     {
 
-                        for (int i = PaginationModel.TotalPages - 3; i < PaginationModel.TotalPages; i++)
+                        for (int i = TotalPages - 3; i < TotalPages; i++)
                         {
                             string currentPageCss = "";
 
@@ -59,7 +66,7 @@
 
                 else
                 {
-                    for (int i = 1; i <= PaginationModel.MaxPageLink - 1; i++)
+                    for (int i = 1; i <= MaxPageLink - 1; i++)
                     {
 
                         string currentPageCss = "";
@@ -76,7 +83,7 @@
             }
             else
             {
-                for (int i = 1; i <= PaginationModel.TotalPages; i++)
+                for (int i = 1; i <= TotalPages; i++)
                 {
                     string currentPageCss = "";
 
@@ -98,13 +105,13 @@
 
         @{
             string hideDotCss = "";
-            if (PaginationModel.TotalPages <= PaginationModel.MaxPageLink)
+            if (TotalPages <= MaxPageLink)
             {
                 hideDotCss = "d-none";
             }
             else
             {
-                if (PaginationModel.PageIndex + 2 >= PaginationModel.TotalPages)
+                if (PaginationModel.PageIndex + 2 >= TotalPages)
                 {
                     hideDotCss = "d-none";
                 }
@@ -115,24 +122,24 @@
                 <a class="page-link">....</a>
             </li>
 
-            if (PaginationModel.TotalPages > PaginationModel.MaxPageLink)
+            if (TotalPages > MaxPageLink)
             {
 
                 string currentPageCss = "";
 
-                if (PaginationModel.PageIndex == PaginationModel.TotalPages)
+                if (PaginationModel.PageIndex == TotalPages)
                 {
                     currentPageCss = "active MakeDisabled";
                 }
                 <li class="@currentPageCss page-item">
-                    <a class="page-link" href="@($"{PageLink}{PaginationModel.TotalPages}")">@PaginationModel.TotalPages</a>
+                    <a class="page-link" href="@($"{PageLink}{TotalPages}")">@TotalPages</a>
                 </li>
             }
         }
 
 
         <li class="page-item @NextDisabled">
-            <a class="page-link rounded-0" href="@($"{PageLink}{PaginationModel.PageIndex + 1}")"  >
+            <a class="page-link rounded-0" href="@($"{PageLink}{PaginationModel.PageIndex + 1}")">
                 Next
             </a>
         </li>

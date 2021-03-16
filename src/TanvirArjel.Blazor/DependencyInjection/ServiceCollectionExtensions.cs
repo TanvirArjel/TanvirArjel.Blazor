@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="ServiceCollectionExtensions.cs" company="TanvirArjel">
+// Copyright (c) TanvirArjel. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 namespace TanvirArjel.Blazor.DependencyInjection
 {
     /// <summary>
-    /// Contains all the extension methods of <see cref="IServiceCollection"/> for adding 
+    /// Contains all the extension methods of <see cref="IServiceCollection"/> for adding
     /// Blazor components to the dependency injection containders.
     /// </summary>
     public static class ServiceCollectionExtensions
@@ -25,7 +29,24 @@ namespace TanvirArjel.Blazor.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            AddComponents(services, null);
+            AddComponents(services, (Assembly[])null);
+        }
+
+        /// <summary>
+        /// This method will add all the blazor components from the provided assembly to the dependency injection container.
+        /// </summary>
+        /// <param name="services">The type to be extended.</param>
+        /// <param name="assembly">The assembly containing the components to be registered.</param>
+        public static void AddComponents(this IServiceCollection services, Assembly assembly)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            Assembly[] assemblies = assembly != null ? new Assembly[] { assembly } : null;
+
+            AddComponents(services, assemblies);
         }
 
         /// <summary>
@@ -33,7 +54,7 @@ namespace TanvirArjel.Blazor.DependencyInjection
         /// </summary>
         /// <param name="services">The type to be extended.</param>
         /// <param name="assemblies">The assemblies containing the components to be registered.</param>
-        public static void AddComponents(this IServiceCollection services, params Assembly[] assemblies)
+        public static void AddComponents(this IServiceCollection services, Assembly[] assemblies)
         {
             if (services == null)
             {
