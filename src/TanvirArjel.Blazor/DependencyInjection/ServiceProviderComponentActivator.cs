@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 namespace TanvirArjel.Blazor.DependencyInjection
 {
     /// <summary>
-    /// This will support dependency injection in blazor components.
+    /// This will dependency injection support in blazor components.
     /// </summary>
     internal class ServiceProviderComponentActivator : IComponentActivator
     {

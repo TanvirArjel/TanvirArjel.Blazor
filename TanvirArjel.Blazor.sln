@@ -16,7 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWasm", "samples\BlazorWasm\BlazorWasm.csproj", "{FF6E53EF-1757-4C27-AD41-81C188A18EA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWasm", "samples\BlazorWasm\BlazorWasm.csproj", "{FF6E53EF-1757-4C27-AD41-81C188A18EA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWasm6.0", "samples\BlazorWasm6.0\BlazorWasm6.0.csproj", "{4164F3E2-5432-42D5-9C7E-47E4445E925A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +38,10 @@ Global
 		{FF6E53EF-1757-4C27-AD41-81C188A18EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF6E53EF-1757-4C27-AD41-81C188A18EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF6E53EF-1757-4C27-AD41-81C188A18EA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4164F3E2-5432-42D5-9C7E-47E4445E925A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4164F3E2-5432-42D5-9C7E-47E4445E925A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4164F3E2-5432-42D5-9C7E-47E4445E925A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4164F3E2-5432-42D5-9C7E-47E4445E925A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 		{96E19D60-E42A-4ED3-9082-AD5778149BA3} = {9A9373A4-1450-4467-88B1-37F5C8B1F426}
 		{49AC5627-6624-42EA-B764-7BE32DF4A22F} = {A360AB98-5F4F-4CD7-9071-774FCE83A9F2}
 		{FF6E53EF-1757-4C27-AD41-81C188A18EA7} = {A360AB98-5F4F-4CD7-9071-774FCE83A9F2}
+		{4164F3E2-5432-42D5-9C7E-47E4445E925A} = {A360AB98-5F4F-4CD7-9071-774FCE83A9F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BFA21431-D51F-40BF-912C-D8D44DC61F13}
