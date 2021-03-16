@@ -19,7 +19,7 @@ namespace TanvirArjel.Blazor.DependencyInjection
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// This method will add all the blazor components from calling assembly to the dependency injection container.
+        /// This method will add all the blazor components from the calling assembly to the dependency injection container.
         /// </summary>
         /// <param name="services">The type to be extended.</param>
         public static void AddComponents(this IServiceCollection services)
@@ -29,7 +29,9 @@ namespace TanvirArjel.Blazor.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            AddComponents(services, (Assembly[])null);
+            Assembly[] assemblies = new[] { Assembly.GetCallingAssembly() };
+
+            AddComponents(services, assemblies);
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace TanvirArjel.Blazor.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            Assembly[] assemblies = assembly != null ? new Assembly[] { assembly } : null;
+            Assembly[] assemblies = new Assembly[] { assembly ?? Assembly.GetCallingAssembly() };
 
             AddComponents(services, assemblies);
         }
@@ -67,7 +69,7 @@ namespace TanvirArjel.Blazor.DependencyInjection
 
             if (assemblies == null || assemblies.Length == 0)
             {
-                assembliesToBeScanned.Add(Assembly.GetEntryAssembly());
+                assembliesToBeScanned.Add(Assembly.GetCallingAssembly());
             }
             else
             {
