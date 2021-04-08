@@ -2,7 +2,8 @@
 This library is extending ASP.NET Core Blazor functionalities to ease most common tasks for the developers. Currently, it has the following functionalities:
 
 1. Adding constructor dependency injection support for the Blazor Components.
-2. A pagination component to display pagination UI in Blazor Components.
+2. Useful extension methods on **NavigationManager** to handle query strings.
+3. A pagination component to display pagination UI in Blazor Components.
 
 ## ⭐ Giving a star ⭐
 
@@ -36,7 +37,15 @@ First install the `TanvirArjel.Blazor` [nuget](https://www.nuget.org/packages/Ta
         
     builder.Services.AddComponents();
     ```
-2. For **Pagination**:
+2. **NavigationManager Extensions:**
+
+   a) GetQuery() - 2 Overloads
+   
+   b) SetQuery() - 2 Overloads
+   
+   c) NavigateTo() - 3 Overloads
+
+3. For **Pagination**:
 
    Add `@using TanvirArjel.Blazor.Components` to the `_Imports.razor` file. and then:
    
