@@ -22,6 +22,7 @@ namespace TanvirArjel.Blazor.DependencyInjection
         /// This method will add all the blazor components from the calling assembly to the dependency injection container.
         /// </summary>
         /// <param name="services">The type to be extended.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="services"/> is <see langword="null"/>.</exception>
         public static void AddComponents(this IServiceCollection services)
         {
             if (services == null)
@@ -39,6 +40,7 @@ namespace TanvirArjel.Blazor.DependencyInjection
         /// </summary>
         /// <param name="services">The type to be extended.</param>
         /// <param name="assembly">The assembly containing the components to be registered.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="services"/> is <see langword="null"/>.</exception>
         public static void AddComponents(this IServiceCollection services, Assembly assembly)
         {
             if (services == null)
@@ -56,7 +58,8 @@ namespace TanvirArjel.Blazor.DependencyInjection
         /// </summary>
         /// <param name="services">The type to be extended.</param>
         /// <param name="assemblies">The assemblies containing the components to be registered.</param>
-        public static void AddComponents(this IServiceCollection services, Assembly[] assemblies)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="services"/> is <see langword="null"/>.</exception>
+        public static void AddComponents(this IServiceCollection services, IEnumerable<Assembly> assemblies)
         {
             if (services == null)
             {
@@ -65,18 +68,12 @@ namespace TanvirArjel.Blazor.DependencyInjection
 
             services.Replace(ServiceDescriptor.Transient<IComponentActivator, ServiceProviderComponentActivator>());
 
-            List<Assembly> assembliesToBeScanned = new List<Assembly>();
-
-            if (assemblies == null || assemblies.Length == 0)
+            if (assemblies == null || !assemblies.Any())
             {
-                assembliesToBeScanned.Add(Assembly.GetCallingAssembly());
-            }
-            else
-            {
-                assembliesToBeScanned = assemblies.OfType<Assembly>().ToList();
+                assemblies = new List<Assembly>() { Assembly.GetCallingAssembly() };
             }
 
-            List<Type> componentsToBeRegistered = assembliesToBeScanned
+            List<Type> componentsToBeRegistered = assemblies
                 .SelectMany(assembly => assembly.GetTypes().Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass)).ToList();
 
             foreach (Type component in componentsToBeRegistered)
