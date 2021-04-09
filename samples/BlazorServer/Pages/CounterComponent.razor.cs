@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using TanvirArjel.Blazor.Extensions;
 
-namespace BlazorWasm6._0.Pages
+namespace BlazorServer.Pages
 {
     public partial class CounterComponent
     {
@@ -26,7 +26,14 @@ namespace BlazorWasm6._0.Pages
 
         private void UpdateQuery()
         {
-            _navigationManager.SetQuery("Test", $"Tanvir{currentCount++}");
+            if (currentCount == 4)
+            {
+                _navigationManager.SetQuery<string>("Test", null);
+            }
+            else
+            {
+                _navigationManager.SetQuery("Test", $"Tanvir{currentCount++}");
+            }
         }
     }
 }
