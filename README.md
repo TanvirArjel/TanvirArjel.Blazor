@@ -5,11 +5,11 @@ This library is extending ASP.NET Core Blazor functionalities to ease most commo
 2. Useful extension methods on **NavigationManager** to handle query strings.
 3. A pagination component to display pagination UI in Blazor Components.
 
-## ⭐ Giving a star ⭐
+## ⭐ Giving a star
 
 **If you find this library useful, please don't forget to encouraging me to do such more stuffs by giving a star to this repository. Thank you.**
 
-## ✈️ How to get started ✈️
+## ✈️ How to get started
 First install the `TanvirArjel.Blazor` [nuget](https://www.nuget.org/packages/TanvirArjel.Blazor/) package into your Blazor app as follows:
 
 **PMC:**
@@ -20,7 +20,7 @@ First install the `TanvirArjel.Blazor` [nuget](https://www.nuget.org/packages/Ta
 
      dotnet add package TanvirArjel.Blazor
     
-## 🛠️ Usage: 🛠️
+## 🛠️ Usage:
 
 1. To enable **Constructor Dependency Injection** support for the Blazor Components:
 
@@ -39,18 +39,25 @@ First install the `TanvirArjel.Blazor` [nuget](https://www.nuget.org/packages/Ta
     ```
 2. **NavigationManager Extensions:**
 
-   a) GetQuery() - 2 Overloads
+   a) To get query string value:
+   ```C#
+   using TanvirArjel.Blazor.Extensions;
+   
+   string tagName = _navigationManager.GetQuery("tag");
+   int pageIndex = _navigationManager.GetQuery<int>("pageIndex");
+   ```
    
    b) SetQuery() - 2 Overloads
    
    c) NavigateTo() - 3 Overloads
 
-3. For **Pagination**:
+3. **For Pagination**:
 
    Add `@using TanvirArjel.Blazor.Components` to the `_Imports.razor` file. and then:
    
    ```C#
    <Pagination PaginationModel="PaginationModel"/>
+   
    @code {
         private PaginationModel PaginationModel { get; set; }
         protected override void OnInitialized()
