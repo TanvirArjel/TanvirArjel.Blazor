@@ -9,8 +9,6 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Primitives;
 
 namespace TanvirArjel.Blazor.Extensions
 {
@@ -39,17 +37,7 @@ namespace TanvirArjel.Blazor.Extensions
                 throw new ArgumentNullException(nameof(key));
             }
 
-            string query = new Uri(navigationManager.Uri).Query;
-
-            if (!string.IsNullOrWhiteSpace(query))
-            {
-                if (QueryHelpers.ParseQuery(query).TryGetValue(key, out StringValues value))
-                {
-                    return value;
-                }
-            }
-
-            return string.Empty;
+            return GetQuery<string>(navigationManager, key);
         }
 
         /// <summary>
@@ -73,18 +61,23 @@ namespace TanvirArjel.Blazor.Extensions
                 throw new ArgumentNullException(nameof(key));
             }
 
-            string query = new Uri(navigationManager.Uri).Query;
+            string queryString = new Uri(navigationManager.Uri).Query;
 
-            if (!string.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrWhiteSpace(queryString))
             {
-                if (QueryHelpers.ParseQuery(query).TryGetValue(key, out StringValues value))
-                {
-                    T t = (T)Convert.ChangeType(value.ToString(), typeof(T), CultureInfo.InvariantCulture);
-                    return t;
-                }
+                return default;
             }
 
-            return default;
+            NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(queryString);
+            string value = nameValueCollection[key];
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return default;
+            }
+
+            T t = (T)Convert.ChangeType(value.ToString(), typeof(T), CultureInfo.InvariantCulture);
+            return t;
         }
 
         /// <summary>
@@ -111,24 +104,12 @@ namespace TanvirArjel.Blazor.Extensions
                 throw new ArgumentNullException(nameof(key));
             }
 
-            string queryString = new Uri(navigationManager.Uri).Query;
-            NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(queryString);
-
-            if (value != null)
+            Dictionary<string, string> dictionary = new Dictionary<string, string>()
             {
-                nameValueCollection[key] = value.ToString();
-            }
-            else
-            {
-                nameValueCollection.Remove(key);
-            }
-
-            UriBuilder uri = new UriBuilder(navigationManager.Uri)
-            {
-                Query = nameValueCollection.ToString(),
+                [key] = value.ToString(),
             };
 
-            navigationManager.NavigateTo(uri.ToString());
+            SetQuery(navigationManager, dictionary);
         }
 
         /// <summary>
@@ -140,7 +121,32 @@ namespace TanvirArjel.Blazor.Extensions
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="keyValuePairs"/> is <see langword="null"/> or empty.</exception>
         public static void SetQuery(
             this NavigationManager navigationManager,
-            Dictionary<string, string> keyValuePairs)
+            IDictionary<string, object> keyValuePairs)
+        {
+            if (navigationManager == null)
+            {
+                throw new ArgumentNullException(nameof(navigationManager));
+            }
+
+            if (keyValuePairs == null)
+            {
+                throw new ArgumentNullException(nameof(keyValuePairs));
+            }
+
+            Dictionary<string, string> queryStringsPairs = keyValuePairs.ToDictionary(kv => kv.Key, kv => kv.Value?.ToString());
+            SetQuery(navigationManager, queryStringsPairs);
+        }
+
+        /// <summary>
+        /// Sets the value of the query strings to current URI.
+        /// </summary>
+        /// <param name="navigationManager">The type to be extended.</param>
+        /// <param name="keyValuePairs">The value of the query strings to be set.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="navigationManager"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="keyValuePairs"/> is <see langword="null"/> or empty.</exception>
+        public static void SetQuery(
+            this NavigationManager navigationManager,
+            IDictionary<string, string> keyValuePairs)
         {
             if (navigationManager == null)
             {
@@ -157,53 +163,9 @@ namespace TanvirArjel.Blazor.Extensions
 
             foreach (KeyValuePair<string, string> item in keyValuePairs)
             {
-                if (item.Value != null)
+                if (!string.IsNullOrWhiteSpace(item.Value))
                 {
                     nameValueCollection[item.Key] = item.Value;
-                }
-                else
-                {
-                    nameValueCollection.Remove(item.Key);
-                }
-            }
-
-            UriBuilder uri = new UriBuilder(navigationManager.Uri)
-            {
-                Query = nameValueCollection.ToString(),
-            };
-
-            navigationManager.NavigateTo(uri.ToString());
-        }
-
-        /// <summary>
-        /// Sets the value of the query strings to current URI.
-        /// </summary>
-        /// <param name="navigationManager">The type to be extended.</param>
-        /// <param name="keyValuePairs">The value of the query strings to be set.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="navigationManager"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="keyValuePairs"/> is <see langword="null"/> or empty.</exception>
-        public static void SetQuery(
-            this NavigationManager navigationManager,
-            Dictionary<string, object> keyValuePairs)
-        {
-            if (navigationManager == null)
-            {
-                throw new ArgumentNullException(nameof(navigationManager));
-            }
-
-            if (keyValuePairs == null)
-            {
-                throw new ArgumentNullException(nameof(keyValuePairs));
-            }
-
-            string queryString = new Uri(navigationManager.Uri).Query;
-            NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(queryString);
-
-            foreach (KeyValuePair<string, object> item in keyValuePairs)
-            {
-                if (item.Value != null)
-                {
-                    nameValueCollection[item.Key] = item.Value.ToString();
                 }
                 else
                 {
@@ -253,9 +215,12 @@ namespace TanvirArjel.Blazor.Extensions
                 throw new ArgumentNullException(nameof(key));
             }
 
-            string pathWithQueryString = QueryHelpers.AddQueryString(uri, key, value?.ToString());
+            Dictionary<string, string> dictionary = new Dictionary<string, string>()
+            {
+                [key] = value.ToString(),
+            };
 
-            navigationManager.NavigateTo(pathWithQueryString, forceLoad);
+            NavigateTo(navigationManager, uri, dictionary, forceLoad);
         }
 
         /// <summary>
@@ -271,43 +236,7 @@ namespace TanvirArjel.Blazor.Extensions
         public static void NavigateTo(
             this NavigationManager navigationManager,
             string uri,
-            Dictionary<string, string> keyValuePairs,
-            bool forceLoad = false)
-        {
-            if (navigationManager == null)
-            {
-                throw new ArgumentNullException(nameof(navigationManager));
-            }
-
-            if (uri == null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
-
-            if (keyValuePairs == null)
-            {
-                throw new ArgumentNullException(nameof(keyValuePairs));
-            }
-
-            string pathWithQueryString = QueryHelpers.AddQueryString(uri, keyValuePairs);
-
-            navigationManager.NavigateTo(pathWithQueryString, forceLoad);
-        }
-
-        /// <summary>
-        /// Sets the value of the query strings to the specified URI and navigate to the that udpated URI.
-        /// </summary>
-        /// <param name="navigationManager">The type to be extended.</param>
-        /// <param name="uri">The URI to which navigation will be done.</param>
-        /// <param name="keyValuePairs">The value of the query strings to be set.</param>
-        /// <param name="forceLoad">If true, bypasses client-side routing and forces the browser to load the new page from the server,
-        /// whether or not the URI would normally be handled by the client-side router.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="navigationManager"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="keyValuePairs"/> is <see langword="null"/> or empty.</exception>
-        public static void NavigateTo(
-            this NavigationManager navigationManager,
-            string uri,
-            Dictionary<string, object> keyValuePairs,
+            IDictionary<string, object> keyValuePairs,
             bool forceLoad = false)
         {
             if (navigationManager == null)
@@ -326,9 +255,62 @@ namespace TanvirArjel.Blazor.Extensions
             }
 
             Dictionary<string, string> queryStringsPairs = keyValuePairs.ToDictionary(kv => kv.Key, kv => kv.Value?.ToString());
-            string pathWithQueryString = QueryHelpers.AddQueryString(uri, queryStringsPairs);
 
-            navigationManager.NavigateTo(pathWithQueryString, forceLoad);
+            NavigateTo(navigationManager, uri, queryStringsPairs, forceLoad);
+        }
+
+        /// <summary>
+        /// Sets the value of the query strings to the specified URI and navigate to the that udpated URI.
+        /// </summary>
+        /// <param name="navigationManager">The type to be extended.</param>
+        /// <param name="uri">The URI to which navigation will be done.</param>
+        /// <param name="keyValuePairs">The value of the query strings to be set.</param>
+        /// <param name="forceLoad">If true, bypasses client-side routing and forces the browser to load the new page from the server,
+        /// whether or not the URI would normally be handled by the client-side router.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="navigationManager"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="keyValuePairs"/> is <see langword="null"/> or empty.</exception>
+        public static void NavigateTo(
+            this NavigationManager navigationManager,
+            string uri,
+            IDictionary<string, string> keyValuePairs,
+            bool forceLoad = false)
+        {
+            if (navigationManager == null)
+            {
+                throw new ArgumentNullException(nameof(navigationManager));
+            }
+
+            if (uri == null)
+            {
+                throw new ArgumentNullException(nameof(uri));
+            }
+
+            if (keyValuePairs == null)
+            {
+                throw new ArgumentNullException(nameof(keyValuePairs));
+            }
+
+            string queryString = new Uri(uri).Query;
+            NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(queryString);
+
+            foreach (KeyValuePair<string, string> item in keyValuePairs)
+            {
+                if (item.Value != null)
+                {
+                    nameValueCollection[item.Key] = item.Value.ToString();
+                }
+                else
+                {
+                    nameValueCollection.Remove(item.Key);
+                }
+            }
+
+            UriBuilder updatedUri = new UriBuilder(uri)
+            {
+                Query = nameValueCollection.ToString(),
+            };
+
+            navigationManager.NavigateTo(updatedUri.ToString(), forceLoad);
         }
     }
 }

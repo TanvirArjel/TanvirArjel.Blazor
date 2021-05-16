@@ -4,10 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Web;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace TanvirArjel.Blazor.Components
 {
@@ -80,8 +81,27 @@ namespace TanvirArjel.Blazor.Components
 
             if (PaginationModel.QueryStrings != null && PaginationModel.QueryStrings.Any())
             {
-                string uriWithQueryString = QueryHelpers.AddQueryString(PaginationModel.ListUrl, PaginationModel.QueryStrings);
-                PageLink = uriWithQueryString + "&pageIndex=";
+                string queryString = new Uri(PaginationModel.ListUrl).Query;
+                NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(queryString);
+
+                foreach (KeyValuePair<string, string> item in PaginationModel.QueryStrings)
+                {
+                    if (item.Value != null)
+                    {
+                        nameValueCollection[item.Key] = item.Value.ToString();
+                    }
+                    else
+                    {
+                        nameValueCollection.Remove(item.Key);
+                    }
+                }
+
+                UriBuilder updatedUri = new UriBuilder(PaginationModel.ListUrl)
+                {
+                    Query = nameValueCollection.ToString(),
+                };
+
+                PageLink = updatedUri.ToString() + "&pageIndex=";
             }
             else
             {

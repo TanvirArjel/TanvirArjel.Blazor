@@ -17,3 +17,6 @@ dotnet_diagnostic.CA1812.severity = none
 
 # CA1054: URI-like parameters should not be strings
 dotnet_diagnostic.CA1054.severity = none
+
+# IDE0090: Use 'new(...)'
+dotnet_diagnostic.IDE0090.severity = none
