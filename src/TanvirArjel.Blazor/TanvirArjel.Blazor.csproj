@@ -5,7 +5,7 @@
     <LangVersion>9.0</LangVersion>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>TanvirArjel</Authors>
@@ -28,7 +28,7 @@
 3. A pagination component to display pagination UI in Blazor Components.
 
 For configuration details please visit the GitHub repository.</Description>
-    <PackageReleaseNotes>1. Useful extension methods on NavigationManager have been added.</PackageReleaseNotes>
+    <PackageReleaseNotes>1. Microsoft.AspNetCore.WebUtilities dependency removed.</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
@@ -51,10 +51,6 @@ For configuration details please visit the GitHub repository.</Description>
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
   </ItemGroup>
   
 </Project>

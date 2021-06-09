@@ -37,7 +37,7 @@ namespace TanvirArjel.Blazor.Extensions
                 throw new ArgumentNullException(nameof(key));
             }
 
-            return GetQuery<string>(navigationManager, key);
+            return navigationManager.GetQuery<string>(key);
         }
 
         /// <summary>
@@ -106,10 +106,10 @@ namespace TanvirArjel.Blazor.Extensions
 
             Dictionary<string, string> dictionary = new Dictionary<string, string>()
             {
-                [key] = value.ToString(),
+                [key] = value?.ToString(),
             };
 
-            SetQuery(navigationManager, dictionary);
+            navigationManager.SetQuery(dictionary);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace TanvirArjel.Blazor.Extensions
             }
 
             Dictionary<string, string> queryStringsPairs = keyValuePairs.ToDictionary(kv => kv.Key, kv => kv.Value?.ToString());
-            SetQuery(navigationManager, queryStringsPairs);
+            navigationManager.SetQuery(queryStringsPairs);
         }
 
         /// <summary>
@@ -158,8 +158,9 @@ namespace TanvirArjel.Blazor.Extensions
                 throw new ArgumentNullException(nameof(keyValuePairs));
             }
 
-            string queryString = new Uri(navigationManager.Uri).Query;
-            NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(queryString);
+            Uri currentFullUri = new Uri(navigationManager.Uri);
+
+            NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(currentFullUri.Query);
 
             foreach (KeyValuePair<string, string> item in keyValuePairs)
             {
@@ -173,7 +174,7 @@ namespace TanvirArjel.Blazor.Extensions
                 }
             }
 
-            UriBuilder uri = new UriBuilder(navigationManager.Uri)
+            UriBuilder uri = new UriBuilder(currentFullUri.AbsoluteUri)
             {
                 Query = nameValueCollection.ToString(),
             };
@@ -205,11 +206,6 @@ namespace TanvirArjel.Blazor.Extensions
                 throw new ArgumentNullException(nameof(navigationManager));
             }
 
-            if (uri == null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
-
             if (string.IsNullOrWhiteSpace(key))
             {
                 throw new ArgumentNullException(nameof(key));
@@ -217,10 +213,10 @@ namespace TanvirArjel.Blazor.Extensions
 
             Dictionary<string, string> dictionary = new Dictionary<string, string>()
             {
-                [key] = value.ToString(),
+                [key] = value?.ToString(),
             };
 
-            NavigateTo(navigationManager, uri, dictionary, forceLoad);
+            navigationManager.NavigateTo(uri, dictionary, forceLoad);
         }
 
         /// <summary>
@@ -244,11 +240,6 @@ namespace TanvirArjel.Blazor.Extensions
                 throw new ArgumentNullException(nameof(navigationManager));
             }
 
-            if (uri == null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
-
             if (keyValuePairs == null)
             {
                 throw new ArgumentNullException(nameof(keyValuePairs));
@@ -256,7 +247,7 @@ namespace TanvirArjel.Blazor.Extensions
 
             Dictionary<string, string> queryStringsPairs = keyValuePairs.ToDictionary(kv => kv.Key, kv => kv.Value?.ToString());
 
-            NavigateTo(navigationManager, uri, queryStringsPairs, forceLoad);
+            navigationManager.NavigateTo(uri, queryStringsPairs, forceLoad);
         }
 
         /// <summary>
@@ -280,24 +271,20 @@ namespace TanvirArjel.Blazor.Extensions
                 throw new ArgumentNullException(nameof(navigationManager));
             }
 
-            if (uri == null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
-
             if (keyValuePairs == null)
             {
                 throw new ArgumentNullException(nameof(keyValuePairs));
             }
 
-            string queryString = new Uri(uri).Query;
-            NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(queryString);
+            Uri fullUri = new Uri(navigationManager.BaseUri + uri);
+
+            NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(fullUri.Query);
 
             foreach (KeyValuePair<string, string> item in keyValuePairs)
             {
-                if (item.Value != null)
+                if (!string.IsNullOrWhiteSpace(item.Value))
                 {
-                    nameValueCollection[item.Key] = item.Value.ToString();
+                    nameValueCollection[item.Key] = item.Value;
                 }
                 else
                 {
@@ -305,7 +292,7 @@ namespace TanvirArjel.Blazor.Extensions
                 }
             }
 
-            UriBuilder updatedUri = new UriBuilder(uri)
+            UriBuilder updatedUri = new UriBuilder(fullUri.AbsoluteUri)
             {
                 Query = nameValueCollection.ToString(),
             };

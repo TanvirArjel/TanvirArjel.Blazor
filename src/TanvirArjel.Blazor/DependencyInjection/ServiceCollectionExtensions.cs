@@ -68,7 +68,7 @@ namespace TanvirArjel.Blazor.DependencyInjection
 
             services.Replace(ServiceDescriptor.Transient<IComponentActivator, ServiceProviderComponentActivator>());
 
-            if (assemblies == null || !assemblies.Any())
+            if (assemblies?.Any() == false)
             {
                 assemblies = new List<Assembly>() { Assembly.GetCallingAssembly() };
             }

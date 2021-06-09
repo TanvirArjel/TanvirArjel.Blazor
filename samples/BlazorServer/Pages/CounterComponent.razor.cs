@@ -14,10 +14,7 @@ namespace BlazorServer.Pages
 
         private int currentCount = 0;
 
-        protected override void OnInitialized()
-        {
-            string v = _navigationManager.GetQuery<string>("Hello");
-        }
+        private string QueryValue { get; set; }
 
         private void IncrementCount()
         {
@@ -28,12 +25,19 @@ namespace BlazorServer.Pages
         {
             if (currentCount == 4)
             {
-                _navigationManager.SetQuery<string>("Test", null);
+                _navigationManager.SetQuery<string>("Test0", null);
             }
             else
             {
-                _navigationManager.SetQuery("Test", $"Tanvir{currentCount++}");
+
+                _navigationManager.SetQuery($"Test{currentCount}", $"Tanvir{currentCount}");
+                currentCount++;
             }
+        }
+
+        private void GetQuery()
+        {
+            QueryValue = _navigationManager.GetQuery<string>($"Test{--currentCount}");
         }
     }
 }

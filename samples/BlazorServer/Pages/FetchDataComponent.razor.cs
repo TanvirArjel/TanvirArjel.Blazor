@@ -29,7 +29,7 @@ namespace BlazorServer.Pages
                 ["Test"] = null
             };
 
-            _navigationManager.NavigateTo(null, keyValuePairs);
+            _navigationManager.NavigateTo("counter", keyValuePairs);
             Forecasts = await _weatherForecastService.GetForecastAsync(DateTime.Now);
         }
     }
