@@ -5,7 +5,7 @@
     <LangVersion>9.0</LangVersion>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>TanvirArjel</Authors>
@@ -28,7 +28,7 @@
 3. A pagination component to display pagination UI in Blazor Components.
 
 For configuration details please visit the GitHub repository.</Description>
-    <PackageReleaseNotes>1. Microsoft.AspNetCore.WebUtilities dependency removed.</PackageReleaseNotes>
+    <PackageReleaseNotes>1. CustomValidator has been added.</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
@@ -46,7 +46,7 @@ For configuration details please visit the GitHub repository.</Description>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.*" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
