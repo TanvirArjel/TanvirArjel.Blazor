@@ -46,7 +46,7 @@ namespace TanvirArjel.Blazor.Components
                 { Guid.NewGuid().ToString(), new List<string> { errorMessage } }
             };
 
-            AddAndDiplayErrors(errors);
+            AddAndDisplayErrors(errors);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace TanvirArjel.Blazor.Components
                 { key, new List<string> { errorMessage } }
             };
 
-            AddAndDiplayErrors(errors);
+            AddAndDisplayErrors(errors);
         }
 
         /// <summary>
@@ -85,7 +85,14 @@ namespace TanvirArjel.Blazor.Components
         /// <param name="errors">The erros to be added and displayed.</param>
         public void AddErrors(IEnumerable<string> errors)
         {
-            Dictionary<string, List<string>> errorDict = errors.ToDictionary(err => Guid.NewGuid().ToString(), err => new List<string> { err });
+            if (errors == null)
+            {
+                return;
+            }
+
+            Dictionary<string, List<string>> errorDict = errors
+                .ToDictionary(err => Guid.NewGuid().ToString(), err => new List<string> { err });
+
             AddErrors(errorDict);
         }
 
@@ -95,15 +102,22 @@ namespace TanvirArjel.Blazor.Components
         /// <param name="errors">The erros to be added and displayed.</param>
         public void AddAndDisplayErrors(IEnumerable<string> errors)
         {
-            Dictionary<string, List<string>> errorDict = errors.ToDictionary(err => Guid.NewGuid().ToString(), err => new List<string> { err });
-            AddAndDiplayErrors(errorDict);
+            if (errors == null)
+            {
+                return;
+            }
+
+            Dictionary<string, List<string>> errorDict = errors
+                .ToDictionary(err => Guid.NewGuid().ToString(), err => new List<string> { err });
+
+            AddAndDisplayErrors(errorDict);
         }
 
         /// <summary>
         /// Add a key-value collection of error messages to the current <see cref="EditContext"/> and display.
         /// </summary>
         /// <param name="errors">The erros to be added and displayed.</param>
-        public void AddAndDiplayErrors(IDictionary<string, List<string>> errors)
+        public void AddAndDisplayErrors(IDictionary<string, List<string>> errors)
         {
             AddErrors(errors);
             CurrentEditContext.NotifyValidationStateChanged();

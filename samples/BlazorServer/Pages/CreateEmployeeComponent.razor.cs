@@ -18,9 +18,9 @@ namespace BlazorServer.Pages
 
         private void HanldeValidSummit()
         {
-            List<string> errors = new List<string> { "The custom error.", "The custom error2." };
+            List<string> errors = new List<string> { null, null };
             CustomValidator.AddErrors(errors);
-            CustomValidator.AddError("Name", "The name is required.");
+            CustomValidator.AddError("Name", null);
             CustomValidator.DisplayErrors();
         }
     }
