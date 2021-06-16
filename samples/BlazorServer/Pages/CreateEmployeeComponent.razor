@@ -1,0 +1,19 @@
+﻿@page "/create-employee"
+
+<h3>CreateEmployeeComponent</h3>
+
+<EditForm Model="EmployeeModel" OnValidSubmit="HanldeValidSummit">
+    <DataAnnotationsValidator />
+    <CustomValidator @ref="CustomValidator" />
+    <ValidationSummary Model="@EmployeeModel" />
+
+    <div class="form-floating mb-3">
+        <InputText class="form-control" @bind-Value="EmployeeModel.Name" placeholder="Enter department name" />
+        <label>Name</label>
+        <ValidationMessage For="@(() => EmployeeModel.Name)" />
+    </div>
+
+    <button type="submit" class="col btn btn-success">
+        <i class="fas fa-plus"></i> Submit
+    </button>
+</EditForm>

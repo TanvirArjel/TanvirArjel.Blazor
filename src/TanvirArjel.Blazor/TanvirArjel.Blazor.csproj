@@ -28,7 +28,7 @@
 3. A pagination component to display pagination UI in Blazor Components.
 
 For configuration details please visit the GitHub repository.</Description>
-    <PackageReleaseNotes>1. CustomValidator has been added.</PackageReleaseNotes>
+    <PackageReleaseNotes>1. CustomValidator component for EditContext has been added.</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 

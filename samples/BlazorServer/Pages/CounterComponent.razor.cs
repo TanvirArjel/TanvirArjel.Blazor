@@ -23,6 +23,8 @@ namespace BlazorServer.Pages
 
         private void UpdateQuery()
         {
+
+
             if (currentCount == 4)
             {
                 _navigationManager.SetQuery<string>("Test0", null);

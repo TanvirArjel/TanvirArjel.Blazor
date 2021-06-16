@@ -8,8 +8,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Forms;
 
-namespace TanvirArjel.Blazor
+namespace TanvirArjel.Blazor.Components
 {
     /// <summary>
     /// Contains extension methods on <see cref="CustomValidator"/>.
@@ -17,7 +18,7 @@ namespace TanvirArjel.Blazor
     public static class CustomValidatorExtensions
     {
         /// <summary>
-        /// Add and diplay errors from the <see cref="HttpResponseMessage"/> object.
+        /// Add and diplay errors from the <see cref="HttpResponseMessage"/> object to the current <see cref="EditContext"/>.
         /// </summary>
         /// <param name="customValidator">The <see cref="CustomValidator"/> object.</param>
         /// <param name="httpResponseMessage">The <see cref="HttpResponseMessage"/> object.</param>
@@ -26,12 +27,12 @@ namespace TanvirArjel.Blazor
         /// <exception cref="ArgumentNullException">Throws if <paramref name="httpResponseMessage"/> is <see langword="null"/>.</exception>
         public static async Task AddErrorsAndDisplayAsync(this CustomValidator customValidator, HttpResponseMessage httpResponseMessage)
         {
-            await AddErrorsAsync(customValidator, httpResponseMessage).ConfigureAwait(false);
+            await customValidator.AddErrorsAsync(httpResponseMessage).ConfigureAwait(false);
             customValidator.DisplayErrors();
         }
 
         /// <summary>
-        /// Add errors from the <see cref="HttpResponseMessage"/> object to the current form context.
+        /// Add errors from the <see cref="HttpResponseMessage"/> object to the current <see cref="EditContext"/>.
         /// </summary>
         /// <param name="customValidator">The <see cref="CustomValidator"/> object.</param>
         /// <param name="httpResponseMessage">The <see cref="HttpResponseMessage"/> object.</param>
@@ -61,17 +62,25 @@ namespace TanvirArjel.Blazor
                         PropertyNameCaseInsensitive = true
                     };
 
-                    string responseString = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                     try
                     {
+                        string responseString = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                         Dictionary<string, List<string>> modelErrors = JsonSerializer.Deserialize<Dictionary<string, List<string>>>(responseString, jsonSerializerOptions);
                         if (modelErrors.Any())
                         {
                             foreach (KeyValuePair<string, List<string>> error in modelErrors)
                             {
-                                string fieldName = error.Key;
+                                string errorKey = error.Key;
                                 List<string> errorMessages = error.Value;
-                                errors.Add(fieldName, errorMessages);
+
+                                if (string.IsNullOrWhiteSpace(errorKey))
+                                {
+                                    errors.Add(Guid.NewGuid().ToString(), errorMessages);
+                                }
+                                else
+                                {
+                                    errors.Add(errorKey, errorMessages);
+                                }
                             }
                         }
                         else
