@@ -8,7 +8,7 @@ namespace BlazorServer.Pages
     {
         private EmployeeModel EmployeeModel { get; set; }
 
-        private CustomValidator CustomValidator { get; set; }
+        private CustomValidationMessages ValidationMessages { get; set; }
 
 
         protected override void OnInitialized()
@@ -19,9 +19,9 @@ namespace BlazorServer.Pages
         private void HanldeValidSummit()
         {
             List<string> errors = new List<string> { null, null };
-            CustomValidator.AddErrors(errors);
-            CustomValidator.AddError("Name", null);
-            CustomValidator.DisplayErrors();
+            ValidationMessages.Add(errors);
+            ValidationMessages.Add("Name", null);
+            ValidationMessages.Display();
         }
     }
 }

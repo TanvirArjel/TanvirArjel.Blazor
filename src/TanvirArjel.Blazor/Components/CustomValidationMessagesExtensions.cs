@@ -1,4 +1,4 @@
-﻿// <copyright file="CustomValidatorExtensions.cs" company="TanvirArjel">
+﻿// <copyright file="CustomValidationMessagesExtensions.cs" company="TanvirArjel">
 // Copyright (c) TanvirArjel. All rights reserved.
 // </copyright>
 
@@ -13,37 +13,42 @@ using Microsoft.AspNetCore.Components.Forms;
 namespace TanvirArjel.Blazor.Components
 {
     /// <summary>
-    /// Contains extension methods on <see cref="CustomValidator"/>.
+    /// Contains extension methods on <see cref="CustomValidationMessages"/>.
     /// </summary>
-    public static class CustomValidatorExtensions
+    public static class CustomValidationMessagesExtensions
     {
         /// <summary>
         /// Add and diplay errors from the <see cref="HttpResponseMessage"/> object to the current <see cref="EditContext"/>.
         /// </summary>
-        /// <param name="customValidator">The <see cref="CustomValidator"/> object.</param>
+        /// <param name="validationMessages">The <see cref="CustomValidationMessages"/> object.</param>
         /// <param name="httpResponseMessage">The <see cref="HttpResponseMessage"/> object.</param>
         /// <returns>Returns <see cref="Task"/>.</returns>
-        /// <exception cref="ArgumentNullException">Throws if <paramref name="customValidator"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">Throws if <paramref name="validationMessages"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">Throws if <paramref name="httpResponseMessage"/> is <see langword="null"/>.</exception>
-        public static async Task AddErrorsAndDisplayAsync(this CustomValidator customValidator, HttpResponseMessage httpResponseMessage)
+        public static async Task AddAndDisplayAsync(this CustomValidationMessages validationMessages, HttpResponseMessage httpResponseMessage)
         {
-            await customValidator.AddErrorsAsync(httpResponseMessage).ConfigureAwait(false);
-            customValidator.DisplayErrors();
+            if (validationMessages == null)
+            {
+                throw new ArgumentNullException(nameof(validationMessages));
+            }
+
+            await validationMessages.AddAsync(httpResponseMessage).ConfigureAwait(false);
+            validationMessages.Display();
         }
 
         /// <summary>
         /// Add errors from the <see cref="HttpResponseMessage"/> object to the current <see cref="EditContext"/>.
         /// </summary>
-        /// <param name="customValidator">The <see cref="CustomValidator"/> object.</param>
+        /// <param name="validationMessages">The <see cref="CustomValidationMessages"/> object.</param>
         /// <param name="httpResponseMessage">The <see cref="HttpResponseMessage"/> object.</param>
         /// <returns>Returns <see cref="Task"/>.</returns>
-        /// <exception cref="ArgumentNullException">Throws if <paramref name="customValidator"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">Throws if <paramref name="validationMessages"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">Throws if <paramref name="httpResponseMessage"/> is <see langword="null"/>.</exception>
-        public static async Task AddErrorsAsync(this CustomValidator customValidator, HttpResponseMessage httpResponseMessage)
+        public static async Task AddAsync(this CustomValidationMessages validationMessages, HttpResponseMessage httpResponseMessage)
         {
-            if (customValidator == null)
+            if (validationMessages == null)
             {
-                throw new ArgumentNullException(nameof(customValidator));
+                throw new ArgumentNullException(nameof(validationMessages));
             }
 
             if (httpResponseMessage == null)
@@ -102,7 +107,7 @@ namespace TanvirArjel.Blazor.Components
                     errors.Add(string.Empty, new List<string> { AppErrorMessage.ServerErrorMessage });
                 }
 
-                customValidator.AddErrors(errors);
+                validationMessages.Add(errors);
             }
         }
     }

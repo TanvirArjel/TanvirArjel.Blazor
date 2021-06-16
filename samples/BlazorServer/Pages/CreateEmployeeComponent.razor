@@ -4,7 +4,7 @@
 
 <EditForm Model="EmployeeModel" OnValidSubmit="HanldeValidSummit">
     <DataAnnotationsValidator />
-    <CustomValidator @ref="CustomValidator" />
+    <CustomValidationMessages @ref="ValidationMessages" />
     <ValidationSummary Model="@EmployeeModel" />
 
     <div class="form-floating mb-3">

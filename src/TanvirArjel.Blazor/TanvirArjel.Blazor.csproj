@@ -5,7 +5,7 @@
     <LangVersion>9.0</LangVersion>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <Version>1.3.0</Version>
+    <Version>1.4.0</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>TanvirArjel</Authors>
@@ -27,10 +27,10 @@
 
 3. A pagination component to display pagination UI in Blazor Components.
 
-4. A CustomValidator component for adding custom error messages to the EditConext.
+4. A CustomValidationMessages component for adding custom error/validation messages to the EditConext.
 
 For configuration details please visit the GitHub repository.</Description>
-    <PackageReleaseNotes>1. CustomValidator component for EditContext has been added.</PackageReleaseNotes>
+    <PackageReleaseNotes>1. CustomValidationMessages component for EditContext has been added.</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
