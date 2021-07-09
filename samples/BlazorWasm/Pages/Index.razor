@@ -1,7 +1,20 @@
 ﻿@page "/"
+@using TanvirArjel.Blazor.Authorization
 
+@inject HostAuthStateProvider HostAuthStateProvider
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
+Toke is: @HostAuthStateProvider.JwtToken
+
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+<AuthorizeView>
+    <Authorized>
+        @context.User.Identity.Name
+    </Authorized>
+    <NotAuthorized>
+        You are not logged in.
+    </NotAuthorized>
+</AuthorizeView>

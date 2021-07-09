@@ -1,58 +1,63 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <LangVersion>9.0</LangVersion>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <Version>1.4.0</Version>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>TanvirArjel</Authors>
-    <Company>Tanvir Ahmad Arjel</Company>
-    <Copyright>©2021 TanvirArjel. All rights reserved.</Copyright>
-    <Title>ASP.NET Core Blazor Extensions</Title>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/TanvirArjel/TanvirArjel.Blazor</PackageProjectUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/TanvirArjel/TanvirArjel.Blazor</RepositoryUrl>
-    <PackageTags>ASPNETCore, Blazor, DependencyInjection,Pagination, NavigationManager</PackageTags>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <PackageIcon>icon.png</PackageIcon>
-    <Description>This library is extending ASP.NET Core Blazor functionalities to ease the most common tasks for the developers. In this version it has the following functionalities:
+	<PropertyGroup>
+		<TargetFrameworks>net5.0</TargetFrameworks>
+		<LangVersion>9.0</LangVersion>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
+		<Version>1.5.0</Version>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>TanvirArjel</Authors>
+		<Company>Tanvir Ahmad Arjel</Company>
+		<Copyright>©2021 TanvirArjel. All rights reserved.</Copyright>
+		<Title>ASP.NET Core Blazor Extensions</Title>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageProjectUrl>https://github.com/TanvirArjel/TanvirArjel.Blazor</PackageProjectUrl>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/TanvirArjel/TanvirArjel.Blazor</RepositoryUrl>
+		<PackageTags>ASPNETCore, Blazor, DependencyInjection,Pagination, NavigationManager</PackageTags>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<PackageIcon>icon.png</PackageIcon>
+		<Description>
+			This library is extending ASP.NET Core Blazor functionalities to ease the most common tasks for the developers. In this version it has the following functionalities:
 
-1. Adding constructor dependency injection support for the Blazor Components.
+			1. Adding constructor dependency injection support for the Blazor Components.
 
-2. Useful extension methods on NavigationManager to handle query strings.
+			2. Useful extension methods on NavigationManager to handle query strings.
 
-3. A pagination component to display pagination UI in Blazor Components.
+			3. A pagination component to display pagination UI in Blazor Components.
 
-4. A CustomValidationMessages component for adding custom error/validation messages to the EditConext.
+			4. A CustomValidationMessages component for adding custom error/validation messages to the EditConext.
 
-For configuration details please visit the GitHub repository.</Description>
-    <PackageReleaseNotes>1. CustomValidationMessages component for EditContext has been added.</PackageReleaseNotes>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-  </PropertyGroup>
+			For configuration details please visit the GitHub repository.
+		</Description>
+		<PackageReleaseNotes>1. CustomValidationMessages component for EditContext has been added.</PackageReleaseNotes>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\.editorconfig" Link=".editorconfig" />
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="images\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <AdditionalFiles Include="stylecop.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\.editorconfig" Link=".editorconfig" />
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="images\icon.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<AdditionalFiles Include="stylecop.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.*" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-  
+	<ItemGroup>
+		<PackageReference Include="Blazored.LocalStorage" Version="4.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="5.0.*" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1" />
+	</ItemGroup>
+
 </Project>

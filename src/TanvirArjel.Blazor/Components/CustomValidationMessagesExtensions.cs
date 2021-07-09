@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Forms;
+using TanvirArjel.Blazor.Utilities;
 
 namespace TanvirArjel.Blazor.Components
 {
@@ -100,11 +101,19 @@ namespace TanvirArjel.Blazor.Components
                 }
                 else if ((int)httpResponseMessage.StatusCode == 401)
                 {
-                    errors.Add(string.Empty, new List<string>() { AppErrorMessage.UnAuthorizedErrorMessage });
+                    errors.Add(string.Empty, new List<string>() { ErrorMessage.Http401ErrorMessage });
+                }
+                else if ((int)httpResponseMessage.StatusCode == 403)
+                {
+                    errors.Add(string.Empty, new List<string>() { ErrorMessage.Http403ErrorMessage });
+                }
+                else if ((int)httpResponseMessage.StatusCode == 404)
+                {
+                    errors.Add(string.Empty, new List<string>() { ErrorMessage.Http404ErrorMessage });
                 }
                 else
                 {
-                    errors.Add(string.Empty, new List<string> { AppErrorMessage.ServerErrorMessage });
+                    errors.Add(string.Empty, new List<string> { ErrorMessage.Http500ErrorMessage });
                 }
 
                 validationMessages.Add(errors);

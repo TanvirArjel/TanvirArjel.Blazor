@@ -1,9 +1,9 @@
 using System;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using TanvirArjel.Blazor.Authorization;
 using TanvirArjel.Blazor.DependencyInjection;
 
 namespace BlazorWasm
@@ -15,7 +15,8 @@ namespace BlazorWasm
             WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddComponents((Assembly)null);
+            builder.Services.AddHostAuthorization();
+            builder.Services.AddComponents();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
