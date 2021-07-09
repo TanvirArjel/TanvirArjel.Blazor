@@ -4,6 +4,7 @@ This library is extending ASP.NET Core Blazor functionalities to ease most commo
 1. Adding constructor dependency injection support for the Blazor Components.
 2. Useful extension methods on **NavigationManager** to handle query strings.
 3. A pagination component to display pagination UI in Blazor Components.
+4. A **CustomValidationMessages** component for adding custom error/validation messages to the EditConext model.
 
 ## ⭐ Giving a star
 
@@ -73,3 +74,67 @@ First install the `TanvirArjel.Blazor` [nuget](https://www.nuget.org/packages/Ta
    }
    ```
    *Note: Pagination styling depends on [Bootstrap](https://getbootstrap.com/) css framework.*
+   
+   
+ 4. **CustomValidationMessages** component for adding custom validation message to the EditContext as follows:
+
+    In `.razor` file:
+
+    ```C#
+    <EditForm EditContext="FormContext" OnValidSubmit="HandleValidSubmit">
+      <DataAnnotationsValidator />
+      <CustomValidationMessages @ref="ValidationMessages" />
+      <ValidationSummary Model="@LoginModel" />
+      
+      ......
+    </EditForm>
+    ```
+  
+    In `.razor.c`s file:
+  
+     ```C#
+     private EditContext FormContext { get; set; }
+
+     private LoginModel LoginModel { get; set; } = new LoginModel();
+
+     private CustomValidationMessages ValidationMessages { get; set; }
+
+     private async Task HandleValidSubmit()
+     {
+       try
+       {
+           HttpResponseMessage httpResponse = await _userService.LoginAsync(LoginModel);
+
+           if (httpResponse.IsSuccessStatusCode)
+           {
+               JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions()
+               {
+                   PropertyNameCaseInsensitive = true
+               };
+
+               string responseString = await httpResponse.Content.ReadAsStringAsync();
+               LoggedInUserInfo loginResponse = JsonSerializer.Deserialize<LoggedInUserInfo>(responseString, jsonSerializerOptions);
+
+               if (loginResponse != null)
+               {
+                   await _hostAuthStateProvider.LogInAsync(loginResponse, "/");
+               }
+           }
+           else
+           {
+               // This will automatically add all the server side validation messages to the EditContext model.
+               await ValidationMessages.AddAndDisplayAsync(httpResponse);
+               IsDisabled = false;
+           }
+       }
+       catch (Exception exception)
+       {
+           // You cann also manually add error messages to the EditContext model.
+           ValidationMessages.AddAndDisplay(AppErrorMessage.ClientErrorMessage);
+           await _exceptionLogger.LogAsync(exception);
+       }
+     }
+     ```
+  
+   
+ 
