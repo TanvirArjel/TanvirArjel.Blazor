@@ -24,17 +24,18 @@ namespace TanvirArjel.Blazor.Utilities
         /// <summary>
         /// Common error text for unauthorized or http 401 error.
         /// </summary>
-        public const string Http401ErrorMessage = "You are not authorized to complete the request.";
+        public const string Http401ErrorMessage = "You are not logged in or not authenticated to complete the request." +
+            "If you are logged in then your session maybe expired. Please try logout and log in again.";
 
         /// <summary>
         /// Common error text for access denied or http 403 error.
         /// </summary>
-        public const string Http403ErrorMessage = "You don't have sufficient permission to complete the request.";
+        public const string Http403ErrorMessage = "You are not authorized or you don't have sufficient permission to complete the request.";
 
         /// <summary>
         /// Common error text for requested path not found or 404 error.
         /// </summary>
-        public const string Http404ErrorMessage = "The requested HTTP path is not found. The path is either does not exist or removed.";
+        public const string Http404ErrorMessage = "The requested HTTP path is not found. The path either does not exist or is removed.";
 
         /// <summary>
         /// Common error text for server is down or CORS access error.

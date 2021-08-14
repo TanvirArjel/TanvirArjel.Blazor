@@ -12,7 +12,7 @@ namespace BlazorServer.Pages
                 PageIndex = 15,
                 PageSize = 5,
                 TotalItems = 300,
-                ListUrl = "products"
+                ListPath = "products"
             };
         }
     }

@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace TanvirArjel.Blazor.Authorization
 {
@@ -19,14 +20,14 @@ namespace TanvirArjel.Blazor.Authorization
         /// Add the necessary authorization services in <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The type to be extened.</param>
-        public static void AddHostAuthorization(this IServiceCollection services)
+        public static void AddJwtAuthentication(this IServiceCollection services)
         {
             if (services == null)
             {
                 throw new ArgumentNullException(nameof(services));
             }
 
-            services.AddScoped<JwtSecurityTokenHandler>();
+            services.TryAddScoped<JwtSecurityTokenHandler>();
             services.AddScoped<JwtTokenParser>();
 
             services.AddBlazoredLocalStorage();

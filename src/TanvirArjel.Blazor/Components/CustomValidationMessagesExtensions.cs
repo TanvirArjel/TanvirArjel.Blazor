@@ -111,9 +111,14 @@ namespace TanvirArjel.Blazor.Components
                 {
                     errors.Add(string.Empty, new List<string>() { ErrorMessage.Http404ErrorMessage });
                 }
+                else if ((int)httpResponseMessage.StatusCode == 500)
+                {
+                    errors.Add(string.Empty, new List<string>() { ErrorMessage.Http500ErrorMessage });
+                }
                 else
                 {
-                    errors.Add(string.Empty, new List<string> { ErrorMessage.Http500ErrorMessage });
+                    string responseMessage = await httpResponseMessage.Content.ReadAsStringAsync();
+                    errors.Add(string.Empty, new List<string> { $"{httpResponseMessage.StatusCode}-{responseMessage}" });
                 }
 
                 validationMessages.Add(errors);

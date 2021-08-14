@@ -15,7 +15,7 @@ namespace BlazorWasm
             WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddHostAuthorization();
+            builder.Services.AddJwtAuthentication();
             builder.Services.AddComponents();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

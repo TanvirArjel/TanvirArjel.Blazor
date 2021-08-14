@@ -23,6 +23,9 @@ namespace TanvirArjel.Blazor.Components
         [Parameter]
         public PaginationModel PaginationModel { get; set; }
 
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
+
         private int TotalPages { get; set; }
 
         private int MaxPageLink { get; set; } = 5;
@@ -61,7 +64,7 @@ namespace TanvirArjel.Blazor.Components
                 throw new InvalidOperationException($"The {nameof(PaginationModel.PageSize)} must be greater than 0.");
             }
 
-            if (PaginationModel.TotalItems <= 0)
+            if (PaginationModel.TotalItems < 0)
             {
                 throw new InvalidOperationException($"The {nameof(PaginationModel.TotalItems)} can't be less than 0.");
             }
@@ -79,10 +82,12 @@ namespace TanvirArjel.Blazor.Components
             PrevDisabled = HasPreviousPage ? string.Empty : "disabled";
             NextDisabled = HasNextPage ? string.Empty : "disabled";
 
-            if (PaginationModel.QueryStrings != null && PaginationModel.QueryStrings.Any())
+            if (PaginationModel.QueryStrings?.Any() == true)
             {
-                string queryString = new Uri(PaginationModel.ListUrl).Query;
-                NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(queryString);
+                Uri baseUri = new Uri(NavigationManager.BaseUri);
+                Uri listUri = new Uri(baseUri, PaginationModel.ListPath);
+
+                NameValueCollection nameValueCollection = HttpUtility.ParseQueryString(listUri.Query);
 
                 foreach (KeyValuePair<string, string> item in PaginationModel.QueryStrings)
                 {
@@ -96,7 +101,7 @@ namespace TanvirArjel.Blazor.Components
                     }
                 }
 
-                UriBuilder updatedUri = new UriBuilder(PaginationModel.ListUrl)
+                UriBuilder updatedUri = new UriBuilder(listUri)
                 {
                     Query = nameValueCollection.ToString(),
                 };
@@ -105,7 +110,7 @@ namespace TanvirArjel.Blazor.Components
             }
             else
             {
-                PageLink = PaginationModel.ListUrl + "?pageIndex=";
+                PageLink = PaginationModel.ListPath + "?pageIndex=";
             }
         }
     }
@@ -132,14 +137,14 @@ namespace TanvirArjel.Blazor.Components
         public long TotalItems { get; set; }
 
         /// <summary>
-        /// Gets or sets the item list url.
+        /// Gets or sets the item list's relative path.
         /// </summary>
-        public string ListUrl { get; set; }
+        public string ListPath { get; set; }
 
         /// <summary>
         /// Gets or sets the query strings of the item list if any. This is can be used to retain the search or order during pagination.
         /// </summary>
-        public Dictionary<string, string> QueryStrings { get; set; }
+        public IDictionary<string, string> QueryStrings { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the pagination details will be shown. Default value is true.

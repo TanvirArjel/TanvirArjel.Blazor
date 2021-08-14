@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFrameworks>net5.0</TargetFrameworks>
+		<TargetFrameworks>net5.0;net6.0</TargetFrameworks>
 		<LangVersion>9.0</LangVersion>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
@@ -19,21 +19,23 @@
 		<PackageTags>ASPNETCore, Blazor, DependencyInjection,Pagination, NavigationManager</PackageTags>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<PackageIcon>icon.png</PackageIcon>
-		<Description>
-			This library is extending ASP.NET Core Blazor functionalities to ease the most common tasks for the developers. In this version it has the following functionalities:
+		<Description>This library is extending ASP.NET Core Blazor functionalities to ease the most common tasks for the developers. In this version it has the following functionalities:
 
-			1. Adding constructor dependency injection support for the Blazor Components.
+	1. Adding constructor dependency injection support for the Blazor Components.
 
-			2. Useful extension methods on NavigationManager to handle query strings.
+	2. Useful extension methods on NavigationManager to handle query strings.
 
-			3. A pagination component to display pagination UI in Blazor Components.
+	3. A pagination component to display pagination UI in Blazor Components.
 
-			4. A CustomValidationMessages component for adding custom error/validation messages to the EditConext.
+	4. A CustomValidationMessages component for adding custom error/validation messages to the EditConext.
 
-			For configuration details please visit the GitHub repository.
+For configuration details please visit the GitHub repository.
 		</Description>
-		<PackageReleaseNotes>1. CustomValidationMessages component for EditContext has been added.</PackageReleaseNotes>
+		<PackageReleaseNotes>1.  Allowing relative path in ListPath in PaginationModel
+2.  Added bootstrap validation classes support for EditContext.                   
+		 </PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -46,18 +48,34 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
+		<None Include="README.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
 		<AdditionalFiles Include="stylecop.json" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Blazored.LocalStorage" Version="4.1.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.*" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="5.0.*" />
-		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333">
+		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework.Contains(net6.0))' == 'true'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0-*" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework.Contains(net5.0))' == 'true'">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.*" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="README.md">
+	    <Pack>True</Pack>
+	  </None>
 	</ItemGroup>
 
 </Project>
