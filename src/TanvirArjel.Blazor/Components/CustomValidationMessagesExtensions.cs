@@ -101,19 +101,19 @@ namespace TanvirArjel.Blazor.Components
                 }
                 else if ((int)httpResponseMessage.StatusCode == 401)
                 {
-                    errors.Add(string.Empty, new List<string>() { ErrorMessage.Http401ErrorMessage });
+                    errors.Add(string.Empty, new List<string>() { ErrorMessages.Http401ErrorMessage });
                 }
                 else if ((int)httpResponseMessage.StatusCode == 403)
                 {
-                    errors.Add(string.Empty, new List<string>() { ErrorMessage.Http403ErrorMessage });
+                    errors.Add(string.Empty, new List<string>() { ErrorMessages.Http403ErrorMessage });
                 }
                 else if ((int)httpResponseMessage.StatusCode == 404)
                 {
-                    errors.Add(string.Empty, new List<string>() { ErrorMessage.Http404ErrorMessage });
+                    errors.Add(string.Empty, new List<string>() { ErrorMessages.Http404ErrorMessage });
                 }
                 else if ((int)httpResponseMessage.StatusCode == 500)
                 {
-                    errors.Add(string.Empty, new List<string>() { ErrorMessage.Http500ErrorMessage });
+                    errors.Add(string.Empty, new List<string>() { ErrorMessages.Http500ErrorMessage });
                 }
                 else
                 {

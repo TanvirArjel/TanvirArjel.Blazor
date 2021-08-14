@@ -1,4 +1,4 @@
-﻿// <copyright file="ErrorMessage.cs" company="TanvirArjel">
+﻿// <copyright file="ErrorMessages.cs" company="TanvirArjel">
 // Copyright (c) TanvirArjel. All rights reserved.
 // </copyright>
 
@@ -7,7 +7,7 @@ namespace TanvirArjel.Blazor.Utilities
     /// <summary>
     /// Contains common texts for different application errors.
     /// </summary>
-    public static class ErrorMessage
+    public static class ErrorMessages
     {
         /// <summary>
         /// Common error text for http 500 server error.
