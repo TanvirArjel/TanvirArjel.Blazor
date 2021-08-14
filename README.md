@@ -5,6 +5,7 @@ This library is extending ASP.NET Core Blazor functionalities to ease most commo
 2. Useful extension methods on **NavigationManager** to handle query strings.
 3. A pagination component to display pagination UI in Blazor Components.
 4. A **CustomValidationMessages** component for adding custom error/validation messages to the EditConext model.
+5. Extension method for adding bootstrap validation classes support in EditContext.
 
 ## ⭐ Giving a star
 
@@ -68,7 +69,7 @@ First install the `TanvirArjel.Blazor` [nuget](https://www.nuget.org/packages/Ta
                 PageIndex = 5,
                 PageSize = 10,
                 TotalItems = 300,
-                ListUrl = "products"
+                ListPath = "products"
             };
         }
    }
@@ -130,7 +131,7 @@ First install the `TanvirArjel.Blazor` [nuget](https://www.nuget.org/packages/Ta
        catch (Exception exception)
        {
            // You cann also manually add error messages to the EditContext model.
-           ValidationMessages.AddAndDisplay(AppErrorMessage.ClientErrorMessage);
+           ValidationMessages.AddAndDisplay(ErrorMessage.ClientErrorMessage);
            await _exceptionLogger.LogAsync(exception);
        }
      }
