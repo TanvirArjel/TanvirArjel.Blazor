@@ -1,1 +1,1 @@
-For more detailed, please visit [GitHub Repository](https://github.com/TanvirArjel/TanvirArjel.Blazor)
+For more detailed documentation, please visit [GitHub Repository](https://github.com/TanvirArjel/TanvirArjel.Blazor)

@@ -56,12 +56,10 @@ For configuration details please visit the GitHub repository.
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Blazored.LocalStorage" Version="4.1.2" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework.Contains(net6.0))' == 'true'">
