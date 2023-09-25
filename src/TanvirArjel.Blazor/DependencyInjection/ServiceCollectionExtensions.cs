@@ -74,7 +74,7 @@ namespace TanvirArjel.Blazor.DependencyInjection
             }
 
             List<Type> componentsToBeRegistered = assemblies
-                .SelectMany(assembly => assembly.GetTypes().Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass)).ToList();
+                .SelectMany(assembly => assembly.GetTypes().Where(p => typeof(IComponent).IsAssignableFrom(p) && p.IsClass && !p.IsAbstract)).ToList();
 
             foreach (Type component in componentsToBeRegistered)
             {
